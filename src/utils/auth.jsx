@@ -1,38 +1,62 @@
-const express = require('express');
-const router = express.router();
+import { setToken, getToken, removeToken } from './token'
 
-//Middleware para verificar si el usuario no está autenticado
-function isAuthenticated(req, res, next) {
-    // Aquí verificas si el usuario está autenticado
-    // Por ejemplo, podrías verificar si hay un token válido en las cookies o headers
-    const isAuth = 'logica de authentication'
+//Simulación en base de datos en localStorage (solo para desarrollo)
+const USERS_KEY = 'users_db';
 
-    if (isAuth) {
-        next();// Si está autenticado, continúa con la siguiente función
-    } else {
-        res.redirect('/signin');// Si está autenticado, continúa con la siguiente función
-    }
+//Obtener la base de datos de usuarios
+const getUsers = () => {
+    const users = localStorage.getItem(USERS_KEY);
+    return users ? JSON.parse(users) : [];
+};
+
+//Guardar la base de datos de usuarios
+const saveUsers = (users) => {
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
+//Registrar un nuevo usuario
+export const register = (email, password) => {
+    return new Promise((resolve, reject) => {
+        const users = getUsers();
 
-// Ruta de registro
-router.get('/signup', (req, res) => {
-    res.send('Página de registro');
-});
+        const userExists = users.some((user) => user.email === email);
 
-// Ruta de inicio de sesión
-router.get('/signin', (req, res) => {
-    res.send('Página de inicio de sesión');
-});
+        if (userExists) {
+            reject("El usuario ya existe");
+        } else {
+            const newUser = { email, password };
+            users.push(newUser);
+            saveUsers(users);
+            resolve("Usuario registrado con exitosamente");
+        }
+    });
+}
 
-// Ruta raíz (solo accesible para usuarios autenticados)
-router.get('/', isAuthenticated, (req, res) => {
-    res.send('Bienvenido a la aplicación');
-});
+// Iniciar sesión
+export const login = (email, password) => {
+    return new Promise((resolve, reject) => {
+        const users = getUsers();
 
-// Otras rutas de la aplicación (también protegidas)
-router.get('/otra-ruta', isAuthenticated, (req, res) => {
-    res.send('Otra ruta protegida');
-});
+        const user = users.find((u) => u.email === email && u.password === password);
 
-module.exports = router;
+        if (user) {
+            // Simular un token
+            const fakeToken = `${email}-token-${Date.now()}`;
+            setToken(fakeToken);
+            resolve({ token: fakeToken, user: { email } });
+        } else {
+            reject("Credenciales incorrectas");
+        }
+    });
+};
+
+// Verificar si hay sesión activa
+export const isLoggedIn = () => {
+    const token = getToken();
+    return Boolean(token);
+};
+
+// Cerrar sesión
+export const logout = () => {
+    removeToken();
+}
