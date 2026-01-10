@@ -3,11 +3,32 @@
     flex-direction: column;
     align-items: center;
     max-width: 1280px;
-    height: 100%;
+    height: 500px;
     background-color: var(--color-fondo-principal);
     grid-column-start: 2;
 
     border: 1px dotted red;
+}
+
+.register_sigup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 400px;
+    height: 400px;
+    background-color: var(--color-fondo-secundario);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    color: aliceblue;
+}
+
+.register_sigin {
+    font-family: "Arial", sans-serif;
+    color: var(--color-texto-principal);
+    color: aliceblue;
 }
 
 @media screen and (min-width: 320px) and (max-width: 600px) {

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header/Header";
+/* import Header from "./Header/Header";
 import Main from "./Main/Main";
-import Footer from "./Footer/Footer";
+import Footer from "./Footer/Footer"; */
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import { api } from "../utils/Api";
+/* import ProtectedRoute from "./ProtectedRoute/ProtectedRoute"; */
+import Register from "./Register/Register";
 
 export default function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -106,27 +108,30 @@ export default function App() {
     return (
         <CurrentUserContext.Provider value={{ currentUser }}>
             <div className="page">
-                <main className="main">
-                    <Header />
-                    <Main
-                        cards={cards}
-                        onCardLike={handleCardLike}
-                        onCardDelete={handleCardDelete}
-                        onAddPlaceSubmit={handleAddPlaceSubmit}
-                        onRecycleClick={handleRecycleClick}
-                        onOpenPopup={(type) => {
-                            handleOpenPopup(type);
-                        }}
-                        onClosePopup={() => {
-                            handleClosePopup();
-                        }}
-                        isPopupOpen={isPopupOpen}
-                        popupType={popupType}
-                        onUpdateAvatar={handleUpdaterAvatar}
-                        onUpdateUser={handleUpdateUser}
-                    />
-                    <Footer />
-                </main>
+                <Register />
+                {/* <ProtectedRoute>
+                    <main className="main">
+                        <Header />
+                        <Main
+                            cards={cards}
+                            onCardLike={handleCardLike}
+                            onCardDelete={handleCardDelete}
+                            onAddPlaceSubmit={handleAddPlaceSubmit}
+                            onRecycleClick={handleRecycleClick}
+                            onOpenPopup={(type) => {
+                                handleOpenPopup(type);
+                            }}
+                            onClosePopup={() => {
+                                handleClosePopup();
+                            }}
+                            isPopupOpen={isPopupOpen}
+                            popupType={popupType}
+                            onUpdateAvatar={handleUpdaterAvatar}
+                            onUpdateUser={handleUpdateUser}
+                        />
+                        <Footer />
+                    </main>
+                </ProtectedRoute> */}
             </div>
         </CurrentUserContext.Provider>
     );
