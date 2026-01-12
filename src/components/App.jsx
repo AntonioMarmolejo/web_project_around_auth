@@ -6,6 +6,7 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import { api } from "../utils/Api";
 /* import ProtectedRoute from "./ProtectedRoute/ProtectedRoute"; */
 import Register from "./Register/Register";
+import Login from "./Login/Login";
 
 export default function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -109,7 +110,8 @@ export default function App() {
         <CurrentUserContext.Provider value={{ currentUser }}>
             <div className="page">
                 <Register />
-                {/* <ProtectedRoute>
+                {/* <Login /> */}
+                {/*  <ProtectedRoute>
                     <main className="main">
                         <Header />
                         <Main

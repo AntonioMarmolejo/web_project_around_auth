@@ -1,11 +1,10 @@
 .page {
-    display: grid;
+    display: flex;
     justify-content: center;
     grid-template-columns: 200px 1fr 200px;
     background-color: var(--color-fondo-principal);
     position: relative;
-
-    border: 1px solid red;
+    height: auto;
 }
 @media screen and (min-width: 320px) and (max-width: 600px) {
     body .page {
