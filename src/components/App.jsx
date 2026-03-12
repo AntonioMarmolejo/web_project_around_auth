@@ -68,6 +68,11 @@ export default function App() {
         setSelectedCardToDelete(null);
     };
 
+    const handleLogout = () => {
+        //Aquí va la lógica para cerrar sesión, como limpiar el token de autenticación y redirigir al usuario a la página de inicio de sesión
+        setCurrentUser({});
+    }
+
     useEffect(() => {
         (async () => {
             try {
@@ -107,7 +112,7 @@ export default function App() {
         <CurrentUserContext.Provider value={{ currentUser }}>
             <div className="page">
                 <main className="main">
-                    <Header />
+                    <Header email={currentUser.email} onlogout={handleLogout} />
                     <Main
                         cards={cards}
                         onCardLike={handleCardLike}

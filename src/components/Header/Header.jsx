@@ -1,11 +1,15 @@
 import React from "react";
 import logo from "../../images/Vector-logo.svg";
-import line from "../../images/Line.png";
-export default function Header() {
+export default function Header({ email, onlogout }) {
     return (
         <header className="header">
             <img className="header__logo" src={logo} alt="Logo del Proyecto" />
-            <img className="header__line" src={line} alt="Linea detalle del Logo" />
+            <div className="header__user">
+                <p className="header__imail">{email}</p>
+                <button className="header__logout" onClick={onlogout}>
+                    Cerrar sesión
+                </button>
+            </div>
         </header>
     );
 }
