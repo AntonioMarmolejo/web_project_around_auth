@@ -1,32 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
+/* import { register } from "../../utils/auth"; */
 import "../../blocks/login.css";
+import logo from "../../assets/Vector-logo.svg"
 
-function Login() {
+function Login({ onResult }) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = async (evt) => {
+        evt.preventDefault();
+        try {
+            //await login(email, password); //Descomentar cuando ya tengamos la función de inicio de sesión implementada
+            onResult(true, "¡Correcto! Sesión iniciada.");
+        } catch (error) {
+            console.error("Error al iniciar sesión:", error);
+            onResult(false, "¡Uy, algo salio mal. Por favor, intenta de nuevo.");
+        }
+    }
+
     return (
-        <div>
-            <div className="login">
-                <h2 className="login_register">Regístrate</h2>
-                <h2 className="login_sigin">Iniciar Sesión</h2>
-                <form className="login_form">
-                    <input
-                        type="email"
-                        className="login_input"
-                        placeholder="Correo Electrónico"
-                        required
-                    />
-                    <input
-                        type="password"
-                        className="login_input"
-                        placeholder="Contraseña"
-                        required
-                    />
-                    <button type="submit" className="login_button">
-                        Iniciar Sesión
-                    </button>
-                </form>
-            </div>
+        <div className="login">
+            <header className="login_header">
+                <img className="login_logo" src={logo} alt="Logo-register" />
+                <h2 className="login_sigin">Regístrate</h2>
+            </header>
+            <h1 className="login_sigup">Inicia Sesión</h1>
+            <form className="login_form" onSubmit={handleSubmit}>
+                <input
+                    id="email"
+                    type="email"
+                    className="login_input"
+                    placeholder="Correo Electrónico"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <input
+                    id="password"
+                    type="password"
+                    className="login_input"
+                    placeholder="Contraseña"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                <button type="submit" className="login_button">
+                    Iniciar Sesión
+                </button>
+                <span className="login_spam">¿Aún no eres miembro? Regístrate aquí</span>
+            </form>
         </div>
     );
-}
+};
 
 export default Login;
