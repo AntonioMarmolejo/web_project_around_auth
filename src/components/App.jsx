@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header/Header";
+/* import Header from "./Header/Header";
 import Main from "./Main/Main";
-import Footer from "./Footer/Footer";
+import Footer from "./Footer/Footer"; */
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import { api } from "../utils/Api";
+// import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
+import Register from "./Register/Register";
+import Login from "./Login/Login";
+import InfoTooltip from "../components/infoTooltip/InfoTooltip";
 
 export default function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -12,6 +16,10 @@ export default function App() {
     const [popupType, setPopupType] = useState(null);
     const [selectedCardToDelete, setSelectedCardToDelete] = useState(null);
 
+    //estados que controlan el modal para personas que ya están o no registradas la página
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+    const [tooltipSuccess, setTooltipSuccess] = useState(false);
+    const [tooltipMessage, setTooltipMessage] = useState("");
 
     useEffect(() => {
         api.getUserInfo().then(setCurrentUser).catch(console.error);
@@ -108,9 +116,16 @@ export default function App() {
         }
     }
 
+    const handleShowTooltip = (isSuccess, message) => {
+        setTooltipSuccess(isSuccess);
+        setTooltipMessage(message);
+        setTooltipOpen(true);
+    }
+
     return (
         <CurrentUserContext.Provider value={{ currentUser }}>
             <div className="page">
+<<<<<<< HEAD
                 <main className="main">
                     <Header email={currentUser.email} onlogout={handleLogout} />
                     <Main
@@ -129,9 +144,40 @@ export default function App() {
                         popupType={popupType}
                         onUpdateAvatar={handleUpdaterAvatar}
                         onUpdateUser={handleUpdateUser}
+=======
+                {/* <Register onResult={handleShowTooltip} /> */}
+                {/* <Login onResult={handleShowTooltip} /> */}
+                {/* {tooltipOpen && (
+                    <InfoTooltip
+                        isSuccess={tooltipSuccess}
+                        message={tooltipMessage}
+                        onClose={() => setTooltipOpen(false)}
+>>>>>>> portectedroute/proteger
                     />
-                    <Footer />
-                </main>
+                )} */}
+                {/* <ProtectedRoute>
+                    <main className="main">
+                        <Header />
+                        <Main
+                            cards={cards}
+                            onCardLike={handleCardLike}
+                            onCardDelete={handleCardDelete}
+                            onAddPlaceSubmit={handleAddPlaceSubmit}
+                            onRecycleClick={handleRecycleClick}
+                            onOpenPopup={(type) => {
+                                handleOpenPopup(type);
+                            }}
+                            onClosePopup={() => {
+                                handleClosePopup();
+                            }}
+                            isPopupOpen={isPopupOpen}
+                            popupType={popupType}
+                            onUpdateAvatar={handleUpdaterAvatar}
+                            onUpdateUser={handleUpdateUser}
+                        />
+                        <Footer />
+                    </main>
+                </ProtectedRoute> */}
             </div>
         </CurrentUserContext.Provider>
     );
