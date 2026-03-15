@@ -1,53 +1,29 @@
-import { setToken, getToken, removeToken } from './token'
+import { setToken, getToken, removeToken } from './token';
 
-//Simulación en base de datos en localStorage (solo para desarrollo)
-const USERS_KEY = 'users_db';
+const BASE_URL = 'https://se-register-api.en.tripleten-services.com/v1';
 
-//Obtener la base de datos de usuarios
-const getUsers = () => {
-    const users = localStorage.getItem(USERS_KEY);
-    return users ? JSON.parse(users) : [];
+// Registrar un nuevo usuario
+export const register = async (email, password) => {
+    const response = await fetch(`${BASE_URL}/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+    });
+    if (!response.ok) throw new Error("Error al registrar usuario");
+    return response.json();
 };
 
-//Guardar la base de datos de usuarios
-const saveUsers = (users) => {
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
-
-//Registrar un nuevo usuario
-export const register = (email, password) => {
-    return new Promise((resolve, reject) => {
-        const users = getUsers();
-
-        const userExists = users.some((user) => user.email === email);
-
-        if (userExists) {
-            reject("El usuario ya existe");
-        } else {
-            const newUser = { email, password };
-            users.push(newUser);
-            saveUsers(users);
-            resolve("Usuario registrado con exitosamente");
-        }
-    });
-}
-
 // Iniciar sesión
-export const login = (email, password) => {
-    return new Promise((resolve, reject) => {
-        const users = getUsers();
-
-        const user = users.find((u) => u.email === email && u.password === password);
-
-        if (user) {
-            // Simular un token
-            const fakeToken = `${email}-token-${Date.now()}`;
-            setToken(fakeToken);
-            resolve({ token: fakeToken, user: { email } });
-        } else {
-            reject("Credenciales incorrectas");
-        }
+export const login = async (email, password) => {
+    const response = await fetch(`${BASE_URL}/signin`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
     });
+    if (!response.ok) throw new Error("Correo o contraseña incorrectos");
+    const data = await response.json();
+    setToken(data.token); // Guardamos el token
+    return data;
 };
 
 // Verificar si hay sesión activa
@@ -59,4 +35,4 @@ export const isLoggedIn = () => {
 // Cerrar sesión
 export const logout = () => {
     removeToken();
-}
+};

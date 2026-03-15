@@ -9,7 +9,7 @@ import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 import InfoTooltip from "./infoTooltip/InfoTooltip";
-import { logout, isLoggedIn } from "../utils/auth";
+import { logout, isLoggedIn, register, login } from "../utils/auth";
 
 export default function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -45,6 +45,24 @@ export default function App() {
         setLoggedIn(true);
         navigate("/");
     }
+
+    const handleRegister = async (email, password) => {
+        try {
+            await register(email, password);
+            handleShowTooltip(true, "¡Correcto! Ya estás registrado.");
+        } catch (error) {
+            handleShowTooltip(false, "Uy, algo salió mal. Por favor, inténtalo de nuevo.");
+        }
+    };
+
+    const handleLoginSubmit = async (email, password) => {
+        try {
+            await login(email, password);
+            handleLogin();
+        } catch (error) {
+            handleShowTooltip(false, "Correo o contraseña incorrectos.");
+        }
+    };
 
     //Función para contralar el boton, de reciclaje, al momento de darle click al ícono de basura
     function handleRecycleClick(card) {
@@ -132,11 +150,12 @@ export default function App() {
             <div className="page">
                 <Routes>
                     <Route path="/signup" element={
-                        <Register onResult={handleShowTooltip} />}
+                        <Register onSubmit={handleRegister} />
+                    }
                     />
 
                     <Route path="/signin" element={
-                        <Login onResult={handleShowTooltip} onLogin={handleLogin} />}
+                        <Login onSubmit={handleLoginSubmit} />}
                     />
                     <Route path="/" element={
                         <ProtectedRoute>

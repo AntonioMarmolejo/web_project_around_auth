@@ -1,22 +1,14 @@
 import React, { useState } from "react";
-import { register } from "../../utils/auth";
 import "../../blocks/register.css";
 import logo from "../../assets/Vector-logo.svg"
 
-function Register({ onResult }) {
+function Register({ onSubmit }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        try {
-            await register(email, password); //Descomentar cuando ya tengamos la función de registro implementada
-            onResult(true, "¡Correcto! Ya estás registrado.");
-        } catch (error) {
-            console.error("Error al registrarse:", error);
-            // Si hay un error, puedes llamar a onResult con false
-            onResult(false, "¡Uy, algo salio mal. Por favor, intenta de nuevo.");
-        }
+        onSubmit(email, password);
     }
 
     return (

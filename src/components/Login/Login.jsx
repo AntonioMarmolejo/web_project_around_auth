@@ -1,21 +1,14 @@
 import React, { useState } from "react";
-import { login } from "../../utils/auth";
 import "../../blocks/login.css";
 import logo from "../../assets/Vector-logo.svg"
 
-function Login({ onResult }) {
+function Login({ onSubmit }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        try {
-            await login(email, password);
-            onResult(true, "¡Correcto! Sesión iniciada.");
-        } catch (error) {
-            console.error("Error al iniciar sesión:", error);
-            onResult(false, "¡Uy, algo salió mal. Por favor, intenta de nuevo.");
-        }
+        onSubmit(email, password);
     }
 
     return (
