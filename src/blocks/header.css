@@ -1,15 +1,11 @@
 .header {
-<<<<<<< HEAD
     display: flex;
     justify-content: space-between;
     align-items: center;
-=======
->>>>>>> infotooltipi/ventana
     width: 94%;
     height: 74px;
     max-width: 880px;
     margin: 45px auto 40px;
-<<<<<<< HEAD
     border-bottom: 1px solid #545454;
 }
 
@@ -36,13 +32,6 @@
     color: var(--color-text);
     font-size: 16px;
     cursor: pointer;
-=======
-
-    border: 1px solid red;
-}
-.header__line {
-    width: 100%;
->>>>>>> infotooltipi/ventana
 }
 
 @media screen and (min-width: 320px) and (max-width: 600px) {
@@ -56,15 +45,9 @@
         padding-left: 27px;
     }
 
-<<<<<<< HEAD
     /* .header__line {
         width: 100%;
     } */
-=======
-    .header__line {
-        width: 100%;
-    }
->>>>>>> infotooltipi/ventana
 }
 @media screen and (min-width: 601px) and (max-width: 768px) {
     .header {

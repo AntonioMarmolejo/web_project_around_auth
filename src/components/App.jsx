@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-/* import Header from "./Header/Header";
+import Header from "./Header/Header";
 import Main from "./Main/Main";
-import Footer from "./Footer/Footer"; */
+import Footer from "./Footer/Footer";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import { api } from "../utils/Api";
-// import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
-import InfoTooltip from "../components/infoTooltip/InfoTooltip";
+import InfoTooltip from "./infoTooltip/InfoTooltip";
 
 export default function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -125,39 +125,9 @@ export default function App() {
     return (
         <CurrentUserContext.Provider value={{ currentUser }}>
             <div className="page">
-<<<<<<< HEAD
-                <main className="main">
-                    <Header email={currentUser.email} onlogout={handleLogout} />
-                    <Main
-                        cards={cards}
-                        onCardLike={handleCardLike}
-                        onCardDelete={handleCardDelete}
-                        onAddPlaceSubmit={handleAddPlaceSubmit}
-                        onRecycleClick={handleRecycleClick}
-                        onOpenPopup={(type) => {
-                            handleOpenPopup(type);
-                        }}
-                        onClosePopup={() => {
-                            handleClosePopup();
-                        }}
-                        isPopupOpen={isPopupOpen}
-                        popupType={popupType}
-                        onUpdateAvatar={handleUpdaterAvatar}
-                        onUpdateUser={handleUpdateUser}
-=======
-                {/* <Register onResult={handleShowTooltip} /> */}
-                {/* <Login onResult={handleShowTooltip} /> */}
-                {/* {tooltipOpen && (
-                    <InfoTooltip
-                        isSuccess={tooltipSuccess}
-                        message={tooltipMessage}
-                        onClose={() => setTooltipOpen(false)}
->>>>>>> portectedroute/proteger
-                    />
-                )} */}
-                {/* <ProtectedRoute>
+                <ProtectedRoute>
                     <main className="main">
-                        <Header />
+                        <Header email={currentUser.email} onLogout={handleLogout} />
                         <Main
                             cards={cards}
                             onCardLike={handleCardLike}
@@ -177,7 +147,7 @@ export default function App() {
                         />
                         <Footer />
                     </main>
-                </ProtectedRoute> */}
+                </ProtectedRoute>
             </div>
         </CurrentUserContext.Provider>
     );
