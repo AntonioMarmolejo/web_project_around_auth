@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-/* import { register } from "../../utils/auth"; */
+import { register } from "../../utils/auth";
 import "../../blocks/register.css";
 import logo from "../../assets/Vector-logo.svg"
 
@@ -10,7 +10,7 @@ function Register({ onResult }) {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         try {
-            //await register(email, password); //Descomentar cuando ya tengamos la función de registro implementada
+            await register(email, password); //Descomentar cuando ya tengamos la función de registro implementada
             onResult(true, "¡Correcto! Ya estás registrado.");
         } catch (error) {
             console.error("Error al registrarse:", error);

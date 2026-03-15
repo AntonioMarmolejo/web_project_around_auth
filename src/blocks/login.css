@@ -102,8 +102,12 @@
 }
 
 @media screen and (min-width: 320px) and (max-width: 600px) {
-    .main {
-        align-items: center;
+    .auth {
+        padding: 1rem;
+        width: 100%;
+    }
+    .auth__input,
+    .auth__submit {
         width: 100%;
     }
 }

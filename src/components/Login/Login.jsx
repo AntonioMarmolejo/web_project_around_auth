@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-/* import { login } from "../../utils/auth"; */
+import { login } from "../../utils/auth";
 import "../../blocks/login.css";
 import logo from "../../assets/Vector-logo.svg"
 
@@ -10,7 +10,7 @@ function Login({ onResult }) {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         try {
-            // await login(email, password);
+            await login(email, password);
             onResult(true, "¡Correcto! Sesión iniciada.");
         } catch (error) {
             console.error("Error al iniciar sesión:", error);

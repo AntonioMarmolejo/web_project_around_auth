@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
@@ -8,6 +9,7 @@ import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 import InfoTooltip from "./infoTooltip/InfoTooltip";
+import { logout, isLoggedIn } from "../utils/auth";
 
 export default function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -15,16 +17,34 @@ export default function App() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [popupType, setPopupType] = useState(null);
     const [selectedCardToDelete, setSelectedCardToDelete] = useState(null);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     //estados que controlan el modal para personas que ya están o no registradas la página
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const [tooltipSuccess, setTooltipSuccess] = useState(false);
     const [tooltipMessage, setTooltipMessage] = useState("");
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        api.getUserInfo().then(setCurrentUser).catch(console.error);
-        api.getInitialCard().then(setCards).catch(console.error);
+        if (isLoggedIn()) {
+            setLoggedIn(true);
+            api.getInitialCard().then(setCards).catch(console.error);
+            api.getUserInfo().then(setCurrentUser).catch(console.error);
+        }
     }, []);
+
+    const handleLogout = () => {
+        logout();
+        setCurrentUser({});
+        setLoggedIn(false);
+        navigate("/signin");
+    }
+
+    const handleLogin = () => {
+        setLoggedIn(true);
+        navigate("/");
+    }
 
     //Función para contralar el boton, de reciclaje, al momento de darle click al ícono de basura
     function handleRecycleClick(card) {
@@ -76,21 +96,6 @@ export default function App() {
         setSelectedCardToDelete(null);
     };
 
-    const handleLogout = () => {
-        //Aquí va la lógica para cerrar sesión, como limpiar el token de autenticación y redirigir al usuario a la página de inicio de sesión
-        setCurrentUser({});
-    }
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const data = await api.getUserInfo();
-                setCurrentUser(data);
-            } catch (error) {
-                console.error("Error al obtener la información del usuario:", error);
-            }
-        })();
-    }, []);
 
     const handleUpdateUser = async (data) => {
         try {
@@ -125,29 +130,43 @@ export default function App() {
     return (
         <CurrentUserContext.Provider value={{ currentUser }}>
             <div className="page">
-                <ProtectedRoute>
-                    <main className="main">
-                        <Header email={currentUser.email} onLogout={handleLogout} />
-                        <Main
-                            cards={cards}
-                            onCardLike={handleCardLike}
-                            onCardDelete={handleCardDelete}
-                            onAddPlaceSubmit={handleAddPlaceSubmit}
-                            onRecycleClick={handleRecycleClick}
-                            onOpenPopup={(type) => {
-                                handleOpenPopup(type);
-                            }}
-                            onClosePopup={() => {
-                                handleClosePopup();
-                            }}
-                            isPopupOpen={isPopupOpen}
-                            popupType={popupType}
-                            onUpdateAvatar={handleUpdaterAvatar}
-                            onUpdateUser={handleUpdateUser}
-                        />
-                        <Footer />
-                    </main>
-                </ProtectedRoute>
+                <Routes>
+                    <Route path="/signup" element={
+                        <Register onResult={handleShowTooltip} />}
+                    />
+
+                    <Route path="/signin" element={
+                        <Login onResult={handleShowTooltip} onLogin={handleLogin} />}
+                    />
+                    <Route path="/" element={
+                        <ProtectedRoute>
+                            <main className="main">
+                                <Header email={currentUser.email} onLogout={handleLogout} loggedIn={loggedIn} />
+                                <Main
+                                    cards={cards}
+                                    onCardLike={handleCardLike}
+                                    onCardDelete={handleCardDelete}
+                                    onAddPlaceSubmit={handleAddPlaceSubmit}
+                                    onRecycleClick={handleRecycleClick}
+                                    onOpenPopup={(type) => handleOpenPopup(type)}
+                                    onClosePopup={() => handleClosePopup()}
+                                    isPopupOpen={isPopupOpen}
+                                    popupType={popupType}
+                                    onUpdateAvatar={handleUpdaterAvatar}
+                                    onUpdateUser={handleUpdateUser}
+                                />
+                                <Footer />
+                            </main>
+                        </ProtectedRoute>
+                    } />
+                </Routes>
+                {tooltipOpen && (
+                    <InfoTooltip
+                        isSuccess={tooltipSuccess}
+                        message={tooltipMessage}
+                        onClose={() => setTooltipOpen(false)}
+                    />
+                )}
             </div>
         </CurrentUserContext.Provider>
     );
