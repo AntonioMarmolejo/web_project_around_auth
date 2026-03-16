@@ -2,6 +2,18 @@ import { setToken, getToken, removeToken } from './token';
 
 const BASE_URL = 'https://se-register-api.en.tripleten-services.com/v1';
 
+export const checkToken = async (token) => {
+    const response = await fetch(`${BASE_URL}/users/me`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+    });
+    if (!response.ok) throw new Error("Token inválido");
+    return response.json(); // Devuelve {data: {email,}}
+}
+
 // Registrar un nuevo usuario
 export const register = async (email, password) => {
     const response = await fetch(`${BASE_URL}/signup`, {

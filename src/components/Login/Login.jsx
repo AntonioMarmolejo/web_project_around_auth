@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../../blocks/login.css";
 import logo from "../../assets/Vector-logo.svg"
+import { Link } from "react-router-dom";
 
 function Login({ onSubmit }) {
     const [email, setEmail] = useState("");
@@ -40,7 +41,9 @@ function Login({ onSubmit }) {
                 <button type="submit" className="login_button">
                     Iniciar Sesión
                 </button>
-                <span className="login_spam">¿Aún no eres miembro? Regístrate aquí</span>
+                <span className="login_spam">
+                    ¿Aún no eres miembro? <Link to="/signup">Regístrate aquí</Link>
+                </span>
             </form>
         </div>
     );

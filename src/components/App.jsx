@@ -9,7 +9,7 @@ import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 import InfoTooltip from "./infoTooltip/InfoTooltip";
-import { logout, isLoggedIn, register, login } from "../utils/auth";
+import { logout, isLoggedIn, register, login, checkToken } from "../utils/auth";
 
 export default function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -27,10 +27,20 @@ export default function App() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isLoggedIn()) {
-            setLoggedIn(true);
-            api.getInitialCard().then(setCards).catch(console.error);
-            api.getUserInfo().then(setCurrentUser).catch(console.error);
+        const token = localStorage.getItem("jwt");
+        if (token) {
+            checkToken(token)
+                .then((data) => {
+                    setCurrentUser({ email: data.data.email, _id: data.data._id });
+                    setLoggedIn(true);
+                    api.getInitialCard().then(setCards).catch(console.error);
+                    api.getUserInfo().then(setCurrentUser).catch(console.error);
+                })
+                .catch((err) => {
+                    console.error("Token inválido:", err);
+                    logout();
+                    navigate("/signin");
+                });
         }
     }, []);
 
@@ -148,6 +158,7 @@ export default function App() {
     return (
         <CurrentUserContext.Provider value={{ currentUser }}>
             <div className="page">
+                <Header email={currentUser.email} onLogout={handleLogout} loggedIn={loggedIn} />
                 <Routes>
                     <Route path="/signup" element={
                         <Register onSubmit={handleRegister} />
@@ -160,7 +171,6 @@ export default function App() {
                     <Route path="/" element={
                         <ProtectedRoute>
                             <main className="main">
-                                <Header email={currentUser.email} onLogout={handleLogout} loggedIn={loggedIn} />
                                 <Main
                                     cards={cards}
                                     onCardLike={handleCardLike}

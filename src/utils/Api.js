@@ -11,8 +11,8 @@ class Api {
 
     getHeaders() {
         return {
-            'Authorization': `Barear ${localStorage.getItem("jwt")}`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("jwt")}`
         }
     }
     _getCheckResponse(res) {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../../blocks/register.css";
 import logo from "../../assets/Vector-logo.svg"
+import { Link } from "react-router-dom";
 
 function Register({ onSubmit }) {
     const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ function Register({ onSubmit }) {
         <div className="register">
             <header className="register_header">
                 <img className="register_logo" src={logo} alt="Logo-register" />
-                <h2 className="register_sigin">Iniciar Sesión</h2>
+                <Link to="/signin" className="register_sigin">Iniciar Sesión</Link>
             </header>
             <h1 className="register_sigup">Registrate</h1>
             <form className="register_form" onSubmit={handleSubmit}>
@@ -40,7 +41,9 @@ function Register({ onSubmit }) {
                 <button type="submit" className="register_button">
                     Registrarse
                 </button>
-                <span className="register_spam">¿Ya eres miembro? inicia sesión aquí</span>
+                <span className="register_spam">
+                    ¿Ya eres miembro? <Link to="/signin">Inicia sesión aquí</Link>
+                </span>
             </form>
         </div>
     );
