@@ -14,10 +14,10 @@ function Register({ onSubmit }) {
 
     return (
         <div className="register">
-            <header className="register_header">
+            {/* <header className="register_header">
                 <img className="register_logo" src={logo} alt="Logo-register" />
                 <Link to="/signin" className="register_sigin">Iniciar Sesión</Link>
-            </header>
+            </header> */}
             <h1 className="register_sigup">Registrate</h1>
             <form className="register_form" onSubmit={handleSubmit}>
                 <input
@@ -42,7 +42,7 @@ function Register({ onSubmit }) {
                     Registrarse
                 </button>
                 <span className="register_spam">
-                    ¿Ya eres miembro? <Link to="/signin">Inicia sesión aquí</Link>
+                    ¿Ya eres miembro? <Link className="register_link" to="/signin">Inicia sesión aquí</Link>
                 </span>
             </form>
         </div>

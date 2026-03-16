@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
@@ -168,6 +168,7 @@ export default function App() {
                     <Route path="/signin" element={
                         <Login onSubmit={handleLoginSubmit} />}
                     />
+                    <Route path="*" element={<Navigate to="/signup" />} />
                     <Route path="/" element={
                         <ProtectedRoute>
                             <main className="main">

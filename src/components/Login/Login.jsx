@@ -14,10 +14,6 @@ function Login({ onSubmit }) {
 
     return (
         <div className="login">
-            <header className="login_header">
-                <img className="login_logo" src={logo} alt="Logo-register" />
-                <h2 className="login_sigin">Regístrate</h2>
-            </header>
             <h1 className="login_sigup">Inicia Sesión</h1>
             <form className="login_form" onSubmit={handleSubmit}>
                 <input
@@ -42,7 +38,7 @@ function Login({ onSubmit }) {
                     Iniciar Sesión
                 </button>
                 <span className="login_spam">
-                    ¿Aún no eres miembro? <Link to="/signup">Regístrate aquí</Link>
+                    ¿Aún no eres miembro? <Link className="login_link" to="/signup">Regístrate aquí</Link>
                 </span>
             </form>
         </div>
