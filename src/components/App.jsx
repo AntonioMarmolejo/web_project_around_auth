@@ -34,7 +34,9 @@ export default function App() {
                     setCurrentUser({ email: data.data.email, _id: data.data._id });
                     setLoggedIn(true);
                     api.getInitialCard().then(setCards).catch(console.error);
-                    api.getUserInfo().then(setCurrentUser).catch(console.error);
+                    api.getUserInfo().then((userData) => {
+                        setCurrentUser((prev) => ({ ...prev, ...userData }));
+                    }).catch(console.error);
                 })
                 .catch((err) => {
                     console.error("Token inválido:", err);
@@ -60,6 +62,7 @@ export default function App() {
         try {
             await register(email, password);
             handleShowTooltip(true, "¡Correcto! Ya estás registrado.");
+            navigate("/signin");
         } catch (error) {
             handleShowTooltip(false, "Uy, algo salió mal. Por favor, inténtalo de nuevo.");
         }

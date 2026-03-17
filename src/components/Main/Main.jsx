@@ -56,7 +56,7 @@ export default function Main({
             {selectedImage && <ImagePopup card={selectedImage} onClose={() => setSelectedImage(null)} />}
 
             <div className="cards">
-                {cards.map((card) => (
+                {(cards || []).map((card) => (
                     <Card
                         key={card._id}
                         card={card}
