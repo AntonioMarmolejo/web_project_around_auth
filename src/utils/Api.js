@@ -5,14 +5,13 @@
  */
 
 class Api {
-    constructor(url, token) {
+    constructor(url) {
         this._url = url;
-        this._token = token;
     };
 
     getHeaders() {
         return {
-            'Authorization': this._token,
+            'Authorization': `678fbd92-e6e4-4044-b047-74ce334ffd4e`,
             'Content-Type': 'application/json'
         }
     }
@@ -132,4 +131,4 @@ class Api {
 }
 
 
-export const api = new Api('https://around.nomoreparties.co/v1/web_es_11', "678fbd92-e6e4-4044-b047-74ce334ffd4e");
+export const api = new Api('https://around.nomoreparties.co/v1/web_es_11');

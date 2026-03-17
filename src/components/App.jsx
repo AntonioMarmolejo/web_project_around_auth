@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import { api } from "../utils/Api";
+import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
+import Register from "./Register/Register";
+import Login from "./Login/Login";
+import InfoTooltip from "./infoTooltip/InfoTooltip";
+import { logout, isLoggedIn, register, login, checkToken } from "../utils/auth";
 
 export default function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -11,12 +17,65 @@ export default function App() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [popupType, setPopupType] = useState(null);
     const [selectedCardToDelete, setSelectedCardToDelete] = useState(null);
+    const [loggedIn, setLoggedIn] = useState(false);
 
+    //estados que controlan el modal para personas que ya están o no registradas la página
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+    const [tooltipSuccess, setTooltipSuccess] = useState(false);
+    const [tooltipMessage, setTooltipMessage] = useState("");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
-        api.getUserInfo().then(setCurrentUser).catch(console.error);
-        api.getInitialCard().then(setCards).catch(console.error);
+        const token = localStorage.getItem("jwt");
+        if (token) {
+            checkToken(token)
+                .then((data) => {
+                    setCurrentUser({ email: data.data.email, _id: data.data._id });
+                    setLoggedIn(true);
+                    api.getInitialCard().then(setCards).catch(console.error);
+                    api.getUserInfo().then((userData) => {
+                        setCurrentUser((prev) => ({ ...prev, ...userData }));
+                    }).catch(console.error);
+                })
+                .catch((err) => {
+                    console.error("Token inválido:", err);
+                    logout();
+                    navigate("/signin");
+                });
+        }
     }, []);
+
+    const handleLogout = () => {
+        logout();
+        setCurrentUser({});
+        setLoggedIn(false);
+        navigate("/signin");
+    }
+
+    const handleLogin = () => {
+        setLoggedIn(true);
+        navigate("/");
+    }
+
+    const handleRegister = async (email, password) => {
+        try {
+            await register(email, password);
+            handleShowTooltip(true, "¡Correcto! Ya estás registrado.");
+            navigate("/signin");
+        } catch (error) {
+            handleShowTooltip(false, "Uy, algo salió mal. Por favor, inténtalo de nuevo.");
+        }
+    };
+
+    const handleLoginSubmit = async (email, password) => {
+        try {
+            await login(email, password);
+            handleLogin();
+        } catch (error) {
+            handleShowTooltip(false, "Correo o contraseña incorrectos.");
+        }
+    };
 
     //Función para contralar el boton, de reciclaje, al momento de darle click al ícono de basura
     function handleRecycleClick(card) {
@@ -68,16 +127,6 @@ export default function App() {
         setSelectedCardToDelete(null);
     };
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const data = await api.getUserInfo();
-                setCurrentUser(data);
-            } catch (error) {
-                console.error("Error al obtener la información del usuario:", error);
-            }
-        })();
-    }, []);
 
     const handleUpdateUser = async (data) => {
         try {
@@ -103,30 +152,54 @@ export default function App() {
         }
     }
 
+    const handleShowTooltip = (isSuccess, message) => {
+        setTooltipSuccess(isSuccess);
+        setTooltipMessage(message);
+        setTooltipOpen(true);
+    }
+
     return (
         <CurrentUserContext.Provider value={{ currentUser }}>
             <div className="page">
-                <main className="main">
-                    <Header />
-                    <Main
-                        cards={cards}
-                        onCardLike={handleCardLike}
-                        onCardDelete={handleCardDelete}
-                        onAddPlaceSubmit={handleAddPlaceSubmit}
-                        onRecycleClick={handleRecycleClick}
-                        onOpenPopup={(type) => {
-                            handleOpenPopup(type);
-                        }}
-                        onClosePopup={() => {
-                            handleClosePopup();
-                        }}
-                        isPopupOpen={isPopupOpen}
-                        popupType={popupType}
-                        onUpdateAvatar={handleUpdaterAvatar}
-                        onUpdateUser={handleUpdateUser}
+                <Header email={currentUser.email} onLogout={handleLogout} loggedIn={loggedIn} />
+                <Routes>
+                    <Route path="/signup" element={
+                        <Register onSubmit={handleRegister} />
+                    }
                     />
-                    <Footer />
-                </main>
+
+                    <Route path="/signin" element={
+                        <Login onSubmit={handleLoginSubmit} />}
+                    />
+                    <Route path="*" element={<Navigate to="/signup" />} />
+                    <Route path="/" element={
+                        <ProtectedRoute>
+                            <main className="main">
+                                <Main
+                                    cards={cards}
+                                    onCardLike={handleCardLike}
+                                    onCardDelete={handleCardDelete}
+                                    onAddPlaceSubmit={handleAddPlaceSubmit}
+                                    onRecycleClick={handleRecycleClick}
+                                    onOpenPopup={(type) => handleOpenPopup(type)}
+                                    onClosePopup={() => handleClosePopup()}
+                                    isPopupOpen={isPopupOpen}
+                                    popupType={popupType}
+                                    onUpdateAvatar={handleUpdaterAvatar}
+                                    onUpdateUser={handleUpdateUser}
+                                />
+                                <Footer />
+                            </main>
+                        </ProtectedRoute>
+                    } />
+                </Routes>
+                {tooltipOpen && (
+                    <InfoTooltip
+                        isSuccess={tooltipSuccess}
+                        message={tooltipMessage}
+                        onClose={() => setTooltipOpen(false)}
+                    />
+                )}
             </div>
         </CurrentUserContext.Provider>
     );

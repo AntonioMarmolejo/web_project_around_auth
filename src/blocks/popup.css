@@ -34,15 +34,22 @@ input::-ms-input-placeholder {
     width: 40px;
     height: 40px;
     cursor: pointer;
-    position: relative;
-    left: 450px;
-    top: 7px;
+    position: absolute;
+    top: -45px;
+    right: -45px;
 }
 .popup--content-addCard {
     z-index: 2;
 }
 .popup--content-image {
     z-index: 2;
+}
+
+.popup__content_content_image {
+    background-color: transparent;
+    padding: 0;
+    width: auto;
+    max-width: 75vw;
 }
 
 .popup__overlay {
@@ -58,9 +65,13 @@ input::-ms-input-placeholder {
     z-index: 3;
 }
 .popup__content {
+    position: relative;
     width: 450px;
     z-index: 2;
     font-family: "Inter-Black";
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
 }
 .popup__close-button:hover {
     transition: 0.5s;
@@ -185,18 +196,22 @@ input::-ms-input-placeholder {
 }
 
 .popup__content_select {
+    position: relative;
     width: fit-content;
-    height: 100vh;
-    position: fixed;
+    height: auto;
     z-index: 999;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
 }
+
 .popup__image {
     display: block;
     max-width: 75vw;
-    height: 85%;
+    max-height: 75vh;
+    height: auto;
+    width: auto;
     object-fit: contain;
-    position: relative;
-    top: 40px;
 }
 .popup__title {
     display: flex;
