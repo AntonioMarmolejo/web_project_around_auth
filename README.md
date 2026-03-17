@@ -4,26 +4,28 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Currently, two official plugins are available:
 
--   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
--   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-# Tripleten web_project_around_react
+## Tripleten web_project_around_auth
 
 ## DESCRIPCIÓN Y FUNCIONALIDAD
 
-Es una página hecha con el propósito de mostrar una interfaz amigable para los usuarios con la idea de que puedan interactuar con la misma haciendo click en los botones respectivos, se presenta el perfil del usuario con el nombre y la actividad a la que se dedica actualmente. Si el usuario quiere realizar algún cambio en el perfil, solo debe seleccionar el boton que está diseñado específicamente para eso, entonces se abrirá el formulario donde se le pedirá los datos al usuario.
+Es una página hecha con el propósito de mostrar una interfaz amigable para los usuarios con la idea de que puedan interactuar con la misma haciendo click en los botones respectivos, se presenta el perfil del usuario con el nombre y la actividad a la que se dedica actualmente. Si el usuario quiere realizar algún cambio en el perfil, solo debe seleccionar el boton que está diseñado específicamente para eso, entonces se abrirá el formulario donde se le pedirá los datos al usuario, ademas el usuario puede registrarse en la página e iniciar sesión en un perfil para él.
 
 Las funcionalidades pricipales de esta página son el boton de editar **perfil** que nos permite abrir el formulario, dentro de este bloque también tenemos el otro boton interactivo que nos permite cerrar el formulario, también en el mismo bloque se encuentra el formulario, el cual contiene ademas los 2 **input** donde el usuario ingresará sus datos.
 
-También en bloque del formulario tenemos el boton **guardar** datos el cual nos sirve para almacenar los datos y remplazarlos en los bloques conrrespondientes de nuestra página web, dando lugar a una pagina de perfil de usuario totalmente personalizable
+También en bloque del formulario tenemos el boton **guardar** datos el cual nos sirve para almacenar los datos y remplazarlos en los bloques conrrespondientes de nuestra página web, dando lugar a una pagina de perfil de usuario totalmente personalizable.
+
+Otras de las funcionalidades es que nos muestra una ventana principal para poder registrarnos si aun no lo hemos hecho, y guarda el token para futuros inicios de secion rápido sin tener que colocar los datos de nuevo.
 
 ## CARACTERÍSTICAS
 
-La página se ha separado por componentes debido a la sintaxis de react, el primer conponente se llama **Main.jsx**, dentro de este componente esta anidado el componente **App**, desde aquí se pintará o renderizará los demas componentes de la página espectivamente, dentro del componente **App.jsx** se encuentran anidados los tres componentes principales que son necesarios para esta página y estos son, **Header**, **Main**, **Footer** los cuales se encargan de renderizar cada uno de los elementos de la página, dando como resultado una interfaz de usuario muy sencilla y fácil de usar.
+La página se ha separado por componentes debido a la sintaxis de react, el primer conponente se llama **Main.jsx**, dentro de este componente esta anidado el componente **App**, desde aquí se pintará o renderizará los demas componentes de la página espectivamente, dentro del componente **App.jsx** se encuentran anidados los otros componentes principales que son necesarios para esta página y estos son, **Header**, **Main**, **Footer**, **Routes**, **Route**, **InfoTooltip** los cuales se encargan de renderizar cada uno de los elementos de la página, dando como resultado una interfaz de usuario muy sencilla y fácil de usar.
 
 ## PROPÓSITO
 
-El propósito principal de este proyecto es fortalecer el conocimiento en JavaScirp y React que hagamos un recorderis de todo lo que hemos aprendido hasta ahora. Interactuar con los botones y ver cómo se comportan, poder ver los cambios que se realizan en la pagina debido a estos botones, permitirle a los usuarios tener una experiencia agradable de interacción con esta página donde éste pueda agregar las imágenes que son se su interés y personalizarlas, darle me gusta o borrar las que no son de su agrado, así mismo explorar las imágenes más a detallle al darle click a cada una de ellas.
+El propósito principal de este proyecto es fortalecer el conocimiento en JavaScirp y React que hagamos un recorderis de todo lo que hemos aprendido hasta ahora. Interactuar con los botones y ver cómo se comportan, poder ver los cambios que se realizan en la pagina debido a estos botones, permitirle a los usuarios tener una experiencia agradable de interacción con esta página donde éste pueda agregar las imágenes que son se su interés y personalizarlas, darle me gusta o borrar las que no son de su agrado, así mismo explorar las imágenes más a detallle al darle click a cada una de ellas, también ver la implementanción de autenticación, inicio de sesión y registros de cada usuario.
 
 ## TÉCNICAS Y TECNOLOGÍAS UTILIZADAS
 
@@ -69,11 +71,13 @@ El propósito principal de este proyecto es fortalecer el conocimiento en JavaSc
 
 21. Al incorporar react a nuestro proyecto y emigrar todo el código a react, hemos separado nuestro código en componentes de esta manera tenemos el directorio componets y dentro de este se encuentran: **EditAvatar.jsx**, **Cards.jsx**, **EditProfile.jsx**, **Footer.jsx**, **Header.jsx**, **ImagePopup.jsx**, **Main.jsx**, **NewCard.jsx**, **Popup.jsx**, **RemoveCard.jsx**.
 
-22. En el archivo **Main.jsx**, se han importado los archivos **Popup.jsx**, **EditProfile.jsx**, **EditAvatar.jsx**, **NewCard.jsx**, **Cards.jsx**, **ImagePopup.jsx**, **RemoveCard.jsx** que no los necesarios para formar el cuerpo de la página o el **Main**.
+22. En el archivo **Main.jsx**, se han importado los archivos **Popup.jsx**, **EditProfile.jsx**, **EditAvatar.jsx**, **NewCard.jsx**, **Cards.jsx**, **ImagePopup.jsx**, **RemoveCard.jsx** que son los necesarios para formar el cuerpo de la página o el **Main**.
 
 23. En el archivo **App** hemos importado los componentes **Header**, **Main**, con todos sus componentes y **Footer**
 
 24. En el archivo **main.jsx** se importa el componente **App** y de esta forma se crea la página de nuestro proyecto.
+
+25. El archivo **Register**, **Login** para el registros de un usuario y la autenticación
 
 ## ENLACES
 
