@@ -39,10 +39,7 @@ export const login = async (email, password) => {
 };
 
 // Verificar si hay sesión activa
-export const isLoggedIn = () => {
-    const token = getToken();
-    return Boolean(token);
-};
+
 
 // Cerrar sesión
 export const logout = () => {

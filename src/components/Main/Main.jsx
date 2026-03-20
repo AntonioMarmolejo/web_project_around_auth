@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import pencil from "../../images/Vector-pencil2.svg";
 import imagenSuma from "../../images/Vector-suma-agregar.svg";
 import Popup from "./components/Popup/Popup";

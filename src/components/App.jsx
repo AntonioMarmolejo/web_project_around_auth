@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
@@ -9,7 +9,7 @@ import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 import InfoTooltip from "./infoTooltip/InfoTooltip";
-import { logout, isLoggedIn, register, login, checkToken } from "../utils/auth";
+import { logout, register, login, checkToken } from "../utils/auth";
 
 export default function App() {
     const [currentUser, setCurrentUser] = useState({});
